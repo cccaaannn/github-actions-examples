@@ -1,0 +1,10 @@
+{
+    "hosting": {
+      "public": "archived_deploy_dist/angular-ci-test",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ]
+    }
+  }

@@ -1,0 +1,2 @@
+"build:ci": "ng build --sourceMap=false --base-href /<GITHUB REPO NAME>/",
+"test:ci": "ng test --watch=false --code-coverage --source-map true"
