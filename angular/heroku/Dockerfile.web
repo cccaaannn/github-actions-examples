@@ -1,0 +1,27 @@
+FROM node:14.18.1 as build-step
+
+WORKDIR /usr/local/<folder_name>
+COPY ./ /usr/local/<folder_name>/
+
+# Install all the dependencies
+RUN npm install
+
+# Generate the build of the application
+RUN npm run build
+
+FROM nginx:latest
+
+# set api url
+ENV API_URL=<api_url>
+
+# copy nginx config file for redirecting all requests to index.html
+COPY .heroku/nginx.conf /etc/nginx/nginx.conf
+
+# Copy the build output to replace the default nginx contents.
+COPY --from=build-step /usr/local/<folder_name>/dist/<app_name> /usr/share/nginx/html
+
+COPY .heroku/run.sh /
+
+ENTRYPOINT ["sh", "./run.sh"]
+
+# CMD sed -i -e 's/$PORT/'"$PORT"'/g' /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'
